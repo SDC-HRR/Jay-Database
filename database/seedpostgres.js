@@ -116,7 +116,7 @@ function saveInfo() {
   const write = () => {
     let ok = true;
     do {
-      if (counter % 10000) console.log(counter);
+      if (counter % 10000 === 0) console.log(counter);
       // setting random generation
       xLanguages = {};
       for (let k = 0; k < languages.length; k += 1) {
