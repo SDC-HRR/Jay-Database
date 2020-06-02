@@ -274,13 +274,13 @@ function saveInfo() {
       data = JSON.stringify(game) + '\n';
 
       counter += 1;
-      if (counter === 1001) {
+      if (counter === 10000001) {
         stream.write(data);
       } else {
         ok = stream.write(data);
       }
-    } while (counter < 1001 && ok);
-    if (counter < 1001) {
+    } while (counter < 10000001 && ok);
+    if (counter < 10000001) {
       stream.once('drain', write);
     }
   };
