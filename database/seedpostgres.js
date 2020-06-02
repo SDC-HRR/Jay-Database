@@ -107,175 +107,184 @@ const xTags = [];
 for (let p = 0; p < Math.floor(Math.random() * 10); p += 1) {
   xTags.push(allTags[Math.floor(Math.random() * allTags.length)]);
 }
-// const headings = 'proxyid|game_object\n';
 
 function saveInfo() {
-  // fs.appendFileSync('./database/data2.csv', headings);
-  for (let i = 1; i < 10000001; i += 1) {
-    // setting random generation
-    const xLanguages = {};
-    for (let k = 0; k < languages.length; k += 1) {
-      xLanguages[languages[k]] = [
-        !Math.round(Math.random()),
-        !Math.round(Math.random()),
-        !Math.round(Math.random()),
-      ];
-    }
+  const stream = fs.createWriteStream('./database/data.csv');
+  let xLanguages, xMContent, xGenres, xAchieves, xOs, game, data;
+  let counter = 1;
 
-    const xMContent = [];
-    for (let l = 0; l < Math.floor(Math.random() * 10); l += 1) {
-      xMContent.push(mContent[Math.floor(Math.random() * mContent.length)]);
-    }
+  const write = () => {
+    let ok = true;
+    do {
+      // setting random generation
+      xLanguages = {};
+      for (let k = 0; k < languages.length; k += 1) {
+        xLanguages[languages[k]] = [
+          !Math.round(Math.random()),
+          !Math.round(Math.random()),
+          !Math.round(Math.random()),
+        ];
+      }
 
-    const xGenres = [];
-    for (let m = 0; m < Math.floor(Math.random() * 3 + 1); m += 1) {
-      xGenres.push(genres[Math.floor(Math.random() * genres.length)]);
-    }
+      xMContent = [];
+      for (let l = 0; l < Math.floor(Math.random() * 10); l += 1) {
+        xMContent.push(mContent[Math.floor(Math.random() * mContent.length)]);
+      }
 
-    const xAchieves = [];
-    for (let n = 0; n < Math.floor(Math.random() * 10 + 5); n += 1) {
-      xAchieves.push(achieves[Math.floor(Math.random() * achieves.length)]);
-    }
+      xGenres = [];
+      for (let m = 0; m < Math.floor(Math.random() * 3 + 1); m += 1) {
+        xGenres.push(genres[Math.floor(Math.random() * genres.length)]);
+      }
 
-    const xOs = [];
-    for (let o = 0; o < Math.floor(Math.random() * 10); o += 1) {
-      xOs.push(gameOS[Math.floor(Math.random() * gameOS.length)]);
-    }
+      xAchieves = [];
+      for (let n = 0; n < Math.floor(Math.random() * 10 + 5); n += 1) {
+        xAchieves.push(achieves[Math.floor(Math.random() * achieves.length)]);
+      }
 
-    const game = [{
-      name: faker.commerce.productName(),
-      url: faker.internet.url(),
-      mainbody: {
-        description: faker.lorem.paragraphs(),
-        images: [faker.image.image(), faker.image.image()],
-        maturecontent: {
-          description: [...new Set(xMContent)],
-        },
-        sysrequirement: {
-          os: [...new Set(xOs)],
-          processor: proc[Math.floor(Math.random() * proc.length)],
-          memory: mem[Math.floor(Math.random() * mem.length)],
-          graphics: gphx[Math.floor(Math.random() * gphx.length)],
-        },
-      },
-      sidebar: {
-        description: {
-          player: [faker.lorem.word(), faker.image.image()],
-          achievements: [faker.lorem.word(), faker.image.image()],
-          captions: [faker.lorem.word(), faker.image.image()],
-          workshop: [faker.lorem.word(), faker.image.image()],
-          editor: [faker.lorem.word(), faker.image.image()],
-        },
-        vrsupport: {
-          headset: [
-            faker.lorem.word(),
-            faker.image.image(),
-            faker.lorem.word(),
-            faker.image.image(),
-            faker.lorem.word(),
-            faker.image.image(),
-            faker.lorem.word(),
-            faker.image.image(),
-          ],
-          input: [faker.lorem.word(), faker.image.image()],
-          playarea: [
-            faker.lorem.word(),
-            faker.image.image(),
-            faker.lorem.word(),
-            faker.image.image(),
-            faker.lorem.word(),
-            faker.image.image(),
-          ],
-        },
-        languages: xLanguages,
-        achievements: [...new Set(xAchieves)],
-        metacritic: Math.floor(Math.random() * 101),
-        minidescription: {
-          genre: [...new Set(xGenres)],
-          developer: faker.company.companyName(),
-          publisher: faker.company.companyName(),
-          franchise: faker.company.companyName(),
-          releasedate: faker.date.past(),
-        },
-      },
-      relatedContent: [
-        {
-          name: faker.commerce.productName(),
-          thumbnail: faker.image.image(),
-          price: faker.commerce.price(),
-          hoverinfo: {
-            releasedate: faker.date.past(),
-            gif: faker.image.image(),
-            reviews:
-              reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
-            totalReviews: Math.floor(Math.random() * 1001),
-            tag: [...new Set(xTags)],
+      xOs = [];
+      for (let o = 0; o < Math.floor(Math.random() * 10); o += 1) {
+        xOs.push(gameOS[Math.floor(Math.random() * gameOS.length)]);
+      }
+
+      game = [{
+        name: faker.commerce.productName(),
+        url: faker.internet.url(),
+        mainbody: {
+          description: faker.lorem.paragraphs(),
+          images: [faker.image.image(), faker.image.image()],
+          maturecontent: {
+            description: [...new Set(xMContent)],
+          },
+          sysrequirement: {
+            os: [...new Set(xOs)],
+            processor: proc[Math.floor(Math.random() * proc.length)],
+            memory: mem[Math.floor(Math.random() * mem.length)],
+            graphics: gphx[Math.floor(Math.random() * gphx.length)],
           },
         },
-        {
-          name: faker.commerce.productName(),
-          thumbnail: faker.image.image(),
-          price: faker.commerce.price(),
-          hoverinfo: {
+        sidebar: {
+          description: {
+            player: [faker.lorem.word(), faker.image.image()],
+            achievements: [faker.lorem.word(), faker.image.image()],
+            captions: [faker.lorem.word(), faker.image.image()],
+            workshop: [faker.lorem.word(), faker.image.image()],
+            editor: [faker.lorem.word(), faker.image.image()],
+          },
+          vrsupport: {
+            headset: [
+              faker.lorem.word(),
+              faker.image.image(),
+              faker.lorem.word(),
+              faker.image.image(),
+              faker.lorem.word(),
+              faker.image.image(),
+              faker.lorem.word(),
+              faker.image.image(),
+            ],
+            input: [faker.lorem.word(), faker.image.image()],
+            playarea: [
+              faker.lorem.word(),
+              faker.image.image(),
+              faker.lorem.word(),
+              faker.image.image(),
+              faker.lorem.word(),
+              faker.image.image(),
+            ],
+          },
+          languages: xLanguages,
+          achievements: [...new Set(xAchieves)],
+          metacritic: Math.floor(Math.random() * 101),
+          minidescription: {
+            genre: [...new Set(xGenres)],
+            developer: faker.company.companyName(),
+            publisher: faker.company.companyName(),
+            franchise: faker.company.companyName(),
             releasedate: faker.date.past(),
-            gif: faker.image.image(),
-            reviews:
-              reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
-            totalReviews: Math.floor(Math.random() * 1001),
-            tag: [...new Set(xTags)],
           },
         },
-        {
-          name: faker.commerce.productName(),
-          thumbnail: faker.image.image(),
-          price: faker.commerce.price(),
-          hoverinfo: {
-            releasedate: faker.date.past(),
-            gif: faker.image.image(),
-            reviews:
-              reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
-            totalReviews: Math.floor(Math.random() * 1001),
-            tag: [...new Set(xTags)],
+        relatedContent: [
+          {
+            name: faker.commerce.productName(),
+            thumbnail: faker.image.image(),
+            price: faker.commerce.price(),
+            hoverinfo: {
+              releasedate: faker.date.past(),
+              gif: faker.image.image(),
+              reviews:
+                reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
+              totalReviews: Math.floor(Math.random() * 1001),
+              tag: [...new Set(xTags)],
+            },
           },
-        },
-        {
-          name: faker.commerce.productName(),
-          thumbnail: faker.image.image(),
-          price: faker.commerce.price(),
-          hoverinfo: {
-            releasedate: faker.date.past(),
-            gif: faker.image.image(),
-            reviews:
-              reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
-            totalReviews: Math.floor(Math.random() * 1001),
-            tag: [...new Set(xTags)],
+          {
+            name: faker.commerce.productName(),
+            thumbnail: faker.image.image(),
+            price: faker.commerce.price(),
+            hoverinfo: {
+              releasedate: faker.date.past(),
+              gif: faker.image.image(),
+              reviews:
+                reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
+              totalReviews: Math.floor(Math.random() * 1001),
+              tag: [...new Set(xTags)],
+            },
           },
-        },
-        {
-          name: faker.commerce.productName(),
-          thumbnail: faker.image.image(),
-          price: faker.commerce.price(),
-          hoverinfo: {
-            releasedate: faker.date.past(),
-            gif: faker.image.image(),
-            reviews:
-              reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
-            totalReviews: Math.floor(Math.random() * 1001),
-            tag: [...new Set(xTags)],
+          {
+            name: faker.commerce.productName(),
+            thumbnail: faker.image.image(),
+            price: faker.commerce.price(),
+            hoverinfo: {
+              releasedate: faker.date.past(),
+              gif: faker.image.image(),
+              reviews:
+                reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
+              totalReviews: Math.floor(Math.random() * 1001),
+              tag: [...new Set(xTags)],
+            },
           },
-        },
-      ],
-    }];
+          {
+            name: faker.commerce.productName(),
+            thumbnail: faker.image.image(),
+            price: faker.commerce.price(),
+            hoverinfo: {
+              releasedate: faker.date.past(),
+              gif: faker.image.image(),
+              reviews:
+                reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
+              totalReviews: Math.floor(Math.random() * 1001),
+              tag: [...new Set(xTags)],
+            },
+          },
+          {
+            name: faker.commerce.productName(),
+            thumbnail: faker.image.image(),
+            price: faker.commerce.price(),
+            hoverinfo: {
+              releasedate: faker.date.past(),
+              gif: faker.image.image(),
+              reviews:
+                reviewRatings[Math.floor(Math.random() * reviewRatings.length)],
+              totalReviews: Math.floor(Math.random() * 1001),
+              tag: [...new Set(xTags)],
+            },
+          },
+        ],
+      }];
 
-    const data = JSON.stringify(game) + '\n';
+      data = JSON.stringify(game) + '\n';
 
-    try {
-      fs.appendFileSync('./database/datajson.csv', data);
-      console.log(`Row ${i} was appended to file!`);
-    } catch (err) {
-      console.log(err);
+      counter += 1;
+      if (counter === 1001) {
+        stream.write(data);
+      } else {
+        ok = stream.write(data);
+      }
+    } while (counter < 1001 && ok);
+    if (counter < 1001) {
+      stream.once('drain', write);
     }
-  }
+  };
+  write();
 }
 
 saveInfo();
