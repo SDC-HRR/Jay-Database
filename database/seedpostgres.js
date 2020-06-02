@@ -109,13 +109,14 @@ for (let p = 0; p < Math.floor(Math.random() * 10); p += 1) {
 }
 
 function saveInfo() {
-  const stream = fs.createWriteStream('./database/data.csv');
+  const stream = fs.createWriteStream('data.csv');
   let xLanguages, xMContent, xGenres, xAchieves, xOs, game, data;
   let counter = 1;
 
   const write = () => {
     let ok = true;
     do {
+      if (counter % 10000) console.log(counter);
       // setting random generation
       xLanguages = {};
       for (let k = 0; k < languages.length; k += 1) {
@@ -288,4 +289,3 @@ function saveInfo() {
 }
 
 saveInfo();
-console.log('Done!');
